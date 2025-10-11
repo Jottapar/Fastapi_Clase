@@ -1,6 +1,6 @@
 from fastapi import HTTPException
-from app.models import Usuario
-from app.models import Rol                     
+from app.models.Usuario import Usuario
+from app.models.Rol import Rol                     
 
 from app.db.database import SessionLocal
 from sqlalchemy.orm import Session
@@ -9,7 +9,7 @@ from app.schemas.usuario_schema import UsuarioCreate
 from passlib.context import CryptContext
 
 #configuramos el encriptador de contraseñas
-pwcontext = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwcontext = CryptContext(schemes=["argon2"], deprecated="auto")
 
 def hash_contrasena(contrasena: str):
     return pwcontext.hash(contrasena)

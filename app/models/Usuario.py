@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db import database
 from app.db.database import Base
+from app.models.Rol import Rol
 
 class Usuario(Base):
     __tablename__ = "usuarios"
@@ -15,5 +16,5 @@ class Usuario(Base):
     estado = Column(String(10), nullable=False)
     rol_id = Column(Integer, ForeignKey("roles.id", ondelete="SET NULL"))
 
-    rol = relationship("Roles", back_populates="usuarios")
+    rol = relationship("Rol", back_populates="usuarios")
 

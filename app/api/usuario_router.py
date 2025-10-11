@@ -22,4 +22,7 @@ def get_usuario(usuario_id: int, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=UsuarioResponse)
 def create_usuario(usuario: UsuarioCreate , db: Session = Depends(get_db)):
-    return usuario_services.create_usuario(db, usuario)
+    try:
+        usuario = usuario_services.create_usuario(db, usuario)
+    except HTTPException as e:
+        raise e
