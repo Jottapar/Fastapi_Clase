@@ -11,7 +11,10 @@ router = APIRouter(
 
 @router.get("/", response_model=list[UsuarioResponse])
 def list_usuarios(db: Session = Depends(get_db)):
-    return usuario_services.get_all_usuarios(db)
+    try:
+        return usuario_services.get_all_usuarios(db)
+    except HTTPException as e:
+        raise e
 
 @router.get("/{usuario_id}", response_model=UsuarioResponse)
 def get_usuario(usuario_id: int, db: Session = Depends(get_db)):
