@@ -7,6 +7,7 @@ from app.models.Rol import Rol
 class Usuario(Base):
     __tablename__ = "usuarios"
 
+    #atributos de la tabla
     id = Column(Integer, primary_key=True, index=True)
     nombre_completo = Column(String(100), nullable=False)
     doc_identidad = Column(String(10), nullable=False)
@@ -14,7 +15,13 @@ class Usuario(Base):
     correo = Column(String(50), unique=True, nullable=False)
     contrasena = Column(String, nullable=False)
     estado = Column(String(10), nullable=False)
+
+    #foreign keys
     rol_id = Column(Integer, ForeignKey("roles.id", ondelete="SET NULL"))
 
+    #relaciones con tablas
     rol = relationship("Rol", back_populates="usuarios")
+    ordenes_trabajo = relationship('Ordenes_Trabajo', back_populates='usuarios')
+    asignador_ordenes_trabajo = relationship('asignaciones_ordenes_trabajo', back_populates='usuarios')
+    asignado_ordenes_trabajo = relationship('asignaciones_ordenes_trabajo', back_populates='usuario_asignado')
 
