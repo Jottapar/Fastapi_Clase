@@ -27,5 +27,6 @@ def get_usuario(usuario_id: int, db: Session = Depends(get_db)):
 def create_usuario(usuario: UsuarioCreate , db: Session = Depends(get_db)):
     try:
         usuario = usuario_services.create_usuario(db, usuario)
+        return usuario
     except HTTPException as e:
         raise e

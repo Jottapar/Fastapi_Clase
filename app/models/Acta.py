@@ -6,7 +6,7 @@ class Acta(Base):
     __tablename__ = 'acta'
 
     #atributos de la tabla
-    id = Column(Integer, Primary_key=True, Index=True)
+    id = Column(Integer, primary_key=True, index=True)
     numero = Column(String(7), nullable=False)
     observaciones = Column(Text, nullable=True)
 
@@ -15,4 +15,4 @@ class Acta(Base):
     updated_at = Column(DateTime, nullable=True)
 
     #relacion con tabla
-    ordenes_trabajo = relationship('Ordenes_Trabajo', back_populates='acta')
+    ordenes_trabajo = relationship('OrdenTrabajo', back_populates='acta')

@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, func
-from sqlachemy.orm import relationship
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 
-class Tareas_Ope(Base):
+class TareaOperacion(Base):
     __tablename__ = 'tareas_ope'
 
     #atributos de la tabla
@@ -15,4 +15,4 @@ class Tareas_Ope(Base):
     updated_at = Column(DateTime, nullable= True)
 
     #relacion con tabla
-    asignaciones_ordenes_trabajo = relationship('Asignaciones_Ordenes_Trabajo', back_populates='tareas_ope')
+    asignaciones_ordenes_trabajo = relationship('AsignacionOrdenTrabajo', back_populates='tareas_ope')

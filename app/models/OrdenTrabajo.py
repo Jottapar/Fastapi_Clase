@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from app.db.database import Base
 
 
-class Ordenes_Trabajo(Base):
+class OrdenTrabajo(Base):
     __tablename__ = 'ordenes_trabajo'
 
     #atributos de la tabla
@@ -20,9 +20,9 @@ class Ordenes_Trabajo(Base):
 
     #Foreign Keys
     acta_id = Column(Integer, ForeignKey('acta.id',onupdate="CASCADE" ,ondelete="SET NULL"))
-    usuarios_id = Column(Integer, ForeignKey('usuarios.id', onupdate="CASCADE", ondelete="SET NULL"))
+    usuario_id = Column(Integer, ForeignKey('usuarios.id', onupdate="CASCADE", ondelete="SET NULL"))
 
     #realciones con las tablas
     usuarios = relationship('Usuario', back_populates='ordenes_trabajo')
     acta = relationship('Acta', back_populates='ordenes_trabajo')
-    asignaciones_ordenes_trabajo = relationship('Asignaciones_Ordenes_Trabajo', back_populates= 'ordenes_trabajo')
+    asignaciones_ordenes_trabajo = relationship('AsignacionOrdenTrabajo', back_populates= 'ordenes_trabajo')
