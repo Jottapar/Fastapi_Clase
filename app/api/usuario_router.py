@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from app.services import usuario_services
 from sqlalchemy.orm import Session
-from app.schemas.usuario_schema import UsuarioCreate, UsuarioResponse
+from app.schemas.usuario_schema import UsuarioCreate, UsuarioResponse, UsuarioUpdate, UsuarioPut
 from app.db.database import get_db
 
 router = APIRouter(
@@ -30,3 +30,11 @@ def create_usuario(usuario: UsuarioCreate , db: Session = Depends(get_db)):
         return usuario
     except HTTPException as e:
         raise e
+
+@router.patch("/{usuario_id}", response_model=UsuarioResponse)
+def patch_usuario(usuario_id: int, body: UsuarioUpdate, db: Session = Depends(get_db)):
+    return usuario_services.actualizar_usuario_parcial(db, usuario_id, body)
+
+@router.put("/{usuario_id}", response_model=UsuarioResponse)
+def put_usuario(usuario_id: int, body: UsuarioPut, db: Session = Depends(get_db)):
+    return usuario_services.reemplazar_usuario_total(db, usuario_id, body)

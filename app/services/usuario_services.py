@@ -5,7 +5,7 @@ from app.models.Rol import Rol
 from app.db.database import SessionLocal
 from sqlalchemy.orm import Session
 
-from app.schemas.usuario_schema import UsuarioCreate
+from app.schemas.usuario_schema import UsuarioCreate, UsuarioUpdate, UsuarioPut
 from passlib.context import CryptContext
 
 #configuramos el encriptador de contraseñas
@@ -53,3 +53,34 @@ def create_usuario(db: Session, usuario: UsuarioCreate):
     db.refresh(db_usuario)
     return db_usuario
 
+def actualizar_usuario_parcial(db: Session, usuario_id: int, body: UsuarioUpdate) -> Usuario:
+    usuario = db.get(Usuario, usuario_id)
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    data = body.dict(exclude_unset=True)
+
+    for k, v in data.items():
+        setattr(usuario, k, v)
+
+    db.add(usuario)
+    db.commit()
+    db.refresh(usuario)
+    return usuario
+
+def reemplazar_usuario_total(db: Session, usuario_id: int, body: UsuarioPut) -> Usuario:
+    usuario = db.get(Usuario, usuario_id)
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    data = body.dict()
+
+    usuario.doc_identidad = data["doc_identidad"]
+    usuario.nombre_completo = data["nombre_completo"]
+    usuario.celular = data.get("celular")
+    usuario.correo = data.get("correo")
+
+    db.add(usuario)
+    db.commit()
+    db.refresh(usuario)
+    return usuario

@@ -18,9 +18,26 @@ class UsuarioCreate(UsuarioBase):
     celular: str | None = None
     rol_id: int
 
+
+#schema para la edicion parcial
+class UsuarioUpdate (BaseModel):
+    doc_identidad: str | None = None
+    nombre_completo: str | None = None
+    celular: str | None = None
+    correo: EmailStr | None = None
+
+#schema para la edicion parcial
+class UsuarioPut (BaseModel):
+    doc_identidad: str
+    nombre_completo: str
+    celular: str | None = None
+    correo: EmailStr | None = None
+
+
 #schema para la respuesta
 class UsuarioResponse(UsuarioBase):
     id: int
     rol_id: int
     class Config:
         orm_mode = True
+
