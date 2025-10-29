@@ -1,5 +1,7 @@
 from pydantic import BaseModel, EmailStr
 
+from app.schemas.rol_schema import RolSchemaResponse
+
 #schema para el login
 class UsuarioLogin(BaseModel):
     correo: EmailStr
@@ -25,6 +27,8 @@ class UsuarioUpdate (BaseModel):
     nombre_completo: str | None = None
     celular: str | None = None
     correo: EmailStr | None = None
+    estado: str | None = None
+    rol_id: int | None = None
 
 #schema para la edicion parcial
 class UsuarioPut (BaseModel):
@@ -37,7 +41,9 @@ class UsuarioPut (BaseModel):
 #schema para la respuesta
 class UsuarioResponse(UsuarioBase):
     id: int
+    rol: RolSchemaResponse
     rol_id: int
     class Config:
         orm_mode = True
+        
 

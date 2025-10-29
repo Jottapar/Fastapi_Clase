@@ -1,6 +1,6 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlalchemy.orm import Session
-from app.schemas.orden_trabajo_schema import OrdenTrabajoCreate, OrdenTrabajoResponse
+from app.schemas.orden_trabajo_schema import OrdenTrabajoCreate, OrdenTrabajoResponse, PaginatedOrdenTrabajoResponse
 from app.services import orden_trabajo_services
 from app.db.database import get_db
 
@@ -9,10 +9,25 @@ router = APIRouter(
     tags=["ordenes_de_trabajo"]
 )
 
-@router.get("/", response_model=list[OrdenTrabajoResponse])
-def list_ordenes(db: Session = Depends(get_db)):
+@router.get("/", response_model=PaginatedOrdenTrabajoResponse)
+def list_ordenes(
+        db: Session = Depends(get_db),
+        skip: int = Query(0, ge=0, description="Número de registros a omitir"),
+        limit: int = Query(10, le=1000, description="Número máximo de registros a retornar"),
+        estado: str | None = Query(None, description="Filtrar por estado de la orden"),
+        usuario_id: int | None = Query(None, description="Filtrar por ID de usuario"),
+        acta_id: int | None = Query(None, description="Filtrar por ID de acta")
+    ):
+    #agregando paginacion y filtros en el futuro
     try:
-        return orden_trabajo_services.get_all_ordenes(db)
+        return orden_trabajo_services.get_all_ordenes(
+            db,
+            skip=skip,
+            limit=limit,
+            estado=estado,
+            usuario_id=usuario_id,
+            acta_id=acta_id
+        )
     except HTTPException as e:
         raise e
 

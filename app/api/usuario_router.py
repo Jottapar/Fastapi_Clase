@@ -33,8 +33,12 @@ def create_usuario(usuario: UsuarioCreate , db: Session = Depends(get_db)):
 
 @router.patch("/{usuario_id}", response_model=UsuarioResponse)
 def patch_usuario(usuario_id: int, body: UsuarioUpdate, db: Session = Depends(get_db)):
-    return usuario_services.actualizar_usuario_parcial(db, usuario_id, body)
+    try:
+        usuario = usuario_services.parcial_update_usuario(db, usuario_id, body)
+        return usuario
+    except HTTPException as e:
+        raise e
 
 @router.put("/{usuario_id}", response_model=UsuarioResponse)
 def put_usuario(usuario_id: int, body: UsuarioPut, db: Session = Depends(get_db)):
-    return usuario_services.reemplazar_usuario_total(db, usuario_id, body)
+    return usuario_services.update_usuario(db, usuario_id, body)

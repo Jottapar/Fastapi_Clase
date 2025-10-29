@@ -21,7 +21,7 @@ class Usuario(Base):
 
     #relaciones con tablas
     rol = relationship("Rol", back_populates="usuarios")
-    ordenes_trabajo = relationship('OrdenTrabajo', back_populates='usuarios')
+    ordenes_trabajo = relationship('OrdenTrabajo', back_populates='usuario')
     asignador_ordenes_trabajo = relationship(
         'AsignacionOrdenTrabajo', 
         foreign_keys='AsignacionOrdenTrabajo.asignador_id',

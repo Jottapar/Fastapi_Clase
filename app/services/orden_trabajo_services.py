@@ -5,9 +5,35 @@ from app.models.Acta import Acta
 from app.models.Usuario import Usuario
 from app.schemas.orden_trabajo_schema import OrdenTrabajoCreate
 
-def get_all_ordenes(db: Session):
-    ordenes = db.query(OrdenTrabajo).all()
-    return ordenes
+def get_all_ordenes(
+        db: Session,
+        skip: int = 0,
+        limit: int = 100,
+        estado: str | None = None,
+        usuario_id: int | None = None,
+        acta_id: int | None = None
+    ):
+
+    if estado or usuario_id or acta_id:
+        query = db.query(OrdenTrabajo)
+        if estado:
+            query = query.filter(OrdenTrabajo.estado == estado)
+        if usuario_id:
+            query = query.filter(OrdenTrabajo.usuario_id == usuario_id)
+        if acta_id:
+            query = query.filter(OrdenTrabajo.acta_id == acta_id)
+        ordenes = query.offset(skip).limit(limit).all()
+        return ordenes
+    
+    total = db.query(OrdenTrabajo).count()
+    ordenes = db.query(OrdenTrabajo).offset(skip).limit(limit).all()
+
+    return {
+        "total": total,
+        "skip": skip,
+        "limit": limit,
+        "items": ordenes
+    }
 
 
 def get_orden_by_id(db: Session, orden_id: int):

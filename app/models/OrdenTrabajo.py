@@ -23,6 +23,6 @@ class OrdenTrabajo(Base):
     usuario_id = Column(Integer, ForeignKey('usuarios.id', onupdate="CASCADE", ondelete="SET NULL"))
 
     #realciones con las tablas
-    usuarios = relationship('Usuario', back_populates='ordenes_trabajo')
+    usuario = relationship('Usuario', back_populates='ordenes_trabajo')
     acta = relationship('Acta', back_populates='ordenes_trabajo')
     asignaciones_ordenes_trabajo = relationship('AsignacionOrdenTrabajo', back_populates= 'ordenes_trabajo')
