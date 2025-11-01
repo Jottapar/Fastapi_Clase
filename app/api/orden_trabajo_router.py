@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlalchemy.orm import Session
-from app.schemas.orden_trabajo_schema import OrdenTrabajoCreate, OrdenTrabajoResponse, PaginatedOrdenTrabajoResponse
+from app.schemas.orden_trabajo_schema import OrdenTrabajoCreate, OrdenTrabajoResponse, PaginatedOrdenTrabajoResponse, AsignacionOrdenTrabajoResponse, AsignacionOrdenTrabajoCreate
 from app.services import orden_trabajo_services
 from app.db.database import get_db
 
@@ -45,5 +45,13 @@ def create_orden(orden: OrdenTrabajoCreate, db: Session = Depends(get_db)):
     try:
         nueva_orden = orden_trabajo_services.create_orden(db, orden)
         return nueva_orden
+    except HTTPException as e:
+        raise e
+
+@router.post("asignacion_orden_trabajo", response_model=AsignacionOrdenTrabajoResponse)
+def asignacion_orden_trabajo(asignacion_orden_trabajo_entry: AsignacionOrdenTrabajoCreate , db: Session = Depends(get_db)):
+    try:
+        asignacion = orden_trabajo_services.asignar_orden_de_trabajo(db, asignacion_orden_trabajo_entry)
+        return asignacion
     except HTTPException as e:
         raise e

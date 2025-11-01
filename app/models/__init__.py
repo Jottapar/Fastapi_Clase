@@ -4,4 +4,4 @@ from .Acta import Acta
 from .AsignacionOrdenTrabajo import AsignacionOrdenTrabajo
 from .Insumo import Insumo
 from .OrdenTrabajo import OrdenTrabajo
-from .TareaOperacion import TareaOperacion
+from .Tarea import Tarea

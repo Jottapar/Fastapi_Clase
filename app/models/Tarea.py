@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from app.db.database import Base
 
-class TareaOperacion(Base):
+class Tarea(Base):
     __tablename__ = 'tareas_ope'
 
     #atributos de la tabla

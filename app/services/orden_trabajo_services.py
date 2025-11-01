@@ -1,8 +1,11 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+from app.models.AsignacionOrdenTrabajo import AsignacionOrdenTrabajo
 from app.models.OrdenTrabajo import OrdenTrabajo
 from app.models.Acta import Acta
 from app.models.Usuario import Usuario
+from app.models.Tarea import Tarea
+from app.models.Insumo import Insumo
 from app.schemas.orden_trabajo_schema import OrdenTrabajoCreate
 
 def get_all_ordenes(
@@ -72,3 +75,34 @@ def create_orden(db: Session, orden: OrdenTrabajoCreate):
     db.commit()
     db.refresh(db_orden)
     return db_orden
+
+def asignar_orden_de_trabajo(db: Session, asignacion_data):
+    orden = db.query(OrdenTrabajo).filter(OrdenTrabajo.id == asignacion_data.orden_trabajo_id).first()
+    if not orden:
+        raise HTTPException(status_code=404, detail="La orden de trabajo no existe")
+    
+    usuario = db.query(Usuario).filter(Usuario.id == asignacion_data.asignador_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="El usuario no existe")
+    
+    tarea = db.query(Tarea).filter(Tarea.id == asignacion_data.tarea_id).first()
+    if not tarea:
+        raise HTTPException(status_code=404, detail="La tarea no existe")
+    
+    insumo = db.query(Insumo).filter(Insumo.id == asignacion_data.insumo_id).first()
+    if not insumo:
+        raise HTTPException(status_code=404, detail="El insumo no existe")
+    
+    db_asignacion_orden = AsignacionOrdenTrabajo(
+        asignador_id = asignacion_data.asignador_id,
+        orden_trabajo_id = asignacion_data.orden_trabajo_id,
+        tarea_id = asignacion_data.tarea_id,
+        insumo_id = asignacion_data.insumo_id,
+        asignado_id = asignacion_data.asignado_id,
+        estado = "pendiente"
+    )
+
+    db.add(db_asignacion_orden)
+    db.commit()
+    db.refresh(db_asignacion_orden)
+    return db_asignacion_orden

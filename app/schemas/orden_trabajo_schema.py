@@ -3,6 +3,8 @@ from datetime import date, datetime
 
 from app.schemas.acta_schema import ActaResponse
 from app.schemas.usuario_schema import UsuarioResponse
+from app.schemas.tarea_schema import TareaSchemaResponse
+from app.schemas.insumo_schema import InsumoSchemaResponse
 
 class OrdenTrabajoCreate(BaseModel):
     fecha_creacion: date
@@ -33,3 +35,27 @@ class PaginatedOrdenTrabajoResponse(BaseModel):
     skip: int
     limit: int
     items: list[OrdenTrabajoResponse]
+
+class AsignacionOrdenTrabajoCreate(BaseModel):
+    asignador_id: int
+    orden_trabajo_id: int
+    tarea_id: int
+    insumo_id: int
+    asignado_id: int
+
+    class Config:
+        orm_mode = True    
+        
+class AsignacionOrdenTrabajoResponse(BaseModel):
+    id: int
+    estado: str
+    asignador_id: UsuarioResponse
+    orden_trabajo_id: OrdenTrabajoResponse
+    tarea_id: TareaSchemaResponse
+    insumo_id: InsumoSchemaResponse
+    asignado_id: UsuarioResponse
+
+    class Config:
+        orm_mode = True    
+        
+

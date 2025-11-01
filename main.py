@@ -4,6 +4,8 @@ from app.api.auth_router import router as login_router
 from app.api.acta_router import router as acta_router
 from app.api.orden_trabajo_router import router as orden_trabajo_router
 from app.api.rol_router import router as rol_router
+from app.api.insumo_router import router as insumo_router
+from app.api.tarea_router import router as tarea_router
 
 from app.core.config import settings
 
@@ -14,6 +16,8 @@ app.include_router(login_router)
 app.include_router(acta_router)
 app.include_router(orden_trabajo_router)
 app.include_router(rol_router)
+app.include_router(insumo_router)
+app.include_router(tarea_router)
 
 @app.get("/")
 def read_root():

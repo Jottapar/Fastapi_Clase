@@ -29,6 +29,6 @@ class AsignacionOrdenTrabajo(Base):
         'Usuario', 
         foreign_keys=[asignado_id],
         back_populates='asignado_ordenes_trabajo')
-    tareas_ope = relationship('TareaOperacion', back_populates='asignaciones_ordenes_trabajo')
+    tareas_ope = relationship('Tarea', back_populates='asignaciones_ordenes_trabajo')
     insumos = relationship('Insumo', back_populates='asignaciones_ordenes_trabajo')
     ordenes_trabajo = relationship('OrdenTrabajo', back_populates= 'asignaciones_ordenes_trabajo')

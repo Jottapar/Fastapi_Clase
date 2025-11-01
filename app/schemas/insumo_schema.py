@@ -1,11 +1,13 @@
 from pydantic import BaseModel
 
-class RolSchemaCreate(BaseModel):
+class InsumoSchemaCreate(BaseModel):
     nombre: str
+    tipo: str
 
-class RolSchemaResponse(BaseModel):
+class InsumoSchemaResponse(BaseModel):
     id: int
     nombre: str
+    tipo: str
 
     class Config:
         orm_mode = True
